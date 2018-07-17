@@ -1,16 +1,18 @@
 package com.cn.helloboot;
 
-import org.springframework.boot.*;
-import org.springframework.boot.autoconfigure.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@RestController
-@EnableAutoConfiguration
+@SpringBootApplication
 public class Example {
-	@RequestMapping("/")
-	String home() {
-		return "Hello World!";
-	}
+//	
+//    @Bean
+//    @ConfigurationProperties(prefix = "my")
+//    public ConnectionSettings connectionSettings(){
+//        return new ConnectionSettings();
+//
+//    }
+	
 
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(Example.class, args);
