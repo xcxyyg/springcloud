@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>速算</title>
+   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+   <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+   <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+	<div class="wrapper wrapper-content animated fadeInRight">
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-md-12 column">
+				<div class="col-sm-3">
+					<form class="form-horizontal">
+						<div class="form-group"><label class="col-lg-5 control-label">运算位:</label> 
+							<div class="col-lg-7"> 
+								<select class="form-control" id="len">
+							      <option value=2>二元</option>
+							      <option value=3>三元</option>
+							      <option value=4>四元</option>
+							    </select>
+							</div> 
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-3">
+					<form class="form-horizontal">
+						<div class="form-group"><label class="col-lg-5 control-label">运算符:</label> 
+							<div class="col-lg-7"> 
+								<select class="form-control" id="type">
+							      <option value=0>加减</option>
+							      <option value=1>加减乘除</option>
+							    </select>
+							</div> 
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-3">
+					<form class="form-horizontal">
+						<div class="form-group"><label class="col-lg-5 control-label">范围</label> 
+							<div class="col-lg-7"> 
+								<select class="form-control" id="max">
+							      <option value=10>10以内</option>
+							      <option value=100>100以内</option>
+							      <option value=1000>1000以内</option>
+							    </select>
+							</div> 
+						</div>
+					</form>
+				</div>
+				<div class="col-sm-3">
+					<button type="button" class="btn btn-w-m btn-primary text-white" id="submit">随机生成题库</button>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="ibox">
+					<div class="ibox-content" id="dataHtml">
+		
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="ibox">
+					<div class="ibox-content" id="ansHtml">
+		
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script type="text/javascript">
+function basePath(){
+    //获取当前网址，如： http://localhost:8080/ems/Pages/Basic/Person.jsp
+    var curWwwPath = window.document.location.href;
+    //获取主机地址之后的目录，如： /ems/Pages/Basic/Person.jsp
+    var pathName = window.document.location.pathname;
+    var pos = curWwwPath.indexOf(pathName);
+    //获取主机地址，如： http://localhost:8080
+    var localhostPath = curWwwPath.substring(0, pos);
+    //获取带"/"的项目名，如：/ems
+    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+    //获取项目的basePath   http://localhost:8080/ems/
+    var basePath=localhostPath+projectName+"/";
+    return basePath;
+}
+
+$(document).ready(function(){
+	
+$("#submit").click(function() {
+	  $.ajax({
+			url:basePath()+"cal/get.do?len="+$("#len").val()+"&max="+$("#max").val()+"&type="+$("#type").val(),
+			async:false,
+			success:function(ret) {
+				$("#dataHtml").html("");
+				$("#ansHtml").html("");
+				var html = ""
+				var ans = "";
+				for (var i = 0; i < ret.length/4; i++) {
+					html+='<div class="row">';
+					for (var j = 0; j < 4; j++) {
+						var obj = ret[i*4+j];
+						var idx = i*4+j+1<10?"&nbsp;"+(i*4+j+1):(i*4+j+1)+"";
+						html+='<div class="col-sm-3" align="left"><label class="control-label">'+idx+'、'+obj.split("=")[0]+' =</label></div>';
+						ans += idx+'、'+obj.split("=")[1]+'； ';
+					}
+					html+='</div>';
+				}
+				$("#dataHtml").append(html);
+				$("#ansHtml").append('<div style="color:red;margin-top:30px;">答案：'+ans.substr(0,ans.length-1)+"<div>");
+			}
+	  });
+})
+
+  
+});
+
+</script>
+</body>
+</html>
