@@ -58,6 +58,17 @@ public class OCRUtil {
     /**
      * recognize text in image
      * @param imageFile
+     * @return text recognized in image
+     * @throws Exception
+     */
+    public String recognizeText(File imageFile)throws Exception{    
+    	String imageFormat = imageFile.getName().substring(imageFile.getName().indexOf(".")+1).toLowerCase();
+        return recognizeText(imageFile, imageFormat);   
+    }    
+    
+    /**
+     * recognize text in image
+     * @param imageFile
      * @param imageFormat
      * @return text recognized in image
      * @throws Exception
@@ -111,7 +122,7 @@ public class OCRUtil {
         pb.redirectErrorStream(true);    
         Process process = pb.start();    
         int w = process.waitFor();    
-//        tempImage.delete();//删除临时正在工作文件         
+        tempImage.delete();//删除临时正在工作文件         
         if(w==0){    
             BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(outputFile.getAbsolutePath()+".txt"),"UTF-8"));    
             String str;    
@@ -134,7 +145,7 @@ public class OCRUtil {
             default:    
                 msg = "Errors occurred.";    
             }    
-//            tempImage.delete();    
+            tempImage.delete();    
             throw new RuntimeException(msg);    
         }    
         new File(outputFile.getAbsolutePath()+".txt").delete();    
@@ -142,9 +153,8 @@ public class OCRUtil {
     }
     
     public static void main(String[] args) throws Exception {
-		File f1 = new File("D:/Tesseract-OCR/readpic/4.png");
+		File f1 = new File("C:/Users/Administrator/Desktop/readpic/5.png");
 		OCRUtil util = new OCRUtil();
-		System.out.println(util.recognizeText(f1, "png"));
-		;
+		System.out.println(util.recognizeText(f1));
 	}
 }
