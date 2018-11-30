@@ -1,4 +1,4 @@
-package com.cn.readPic;
+package com.cn.baidu.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

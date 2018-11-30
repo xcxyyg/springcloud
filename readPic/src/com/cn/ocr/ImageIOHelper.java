@@ -1,4 +1,4 @@
-package com.cn.readPic;
+package com.cn.ocr;
 
 import java.awt.image.BufferedImage;  
 import java.io.File;  
