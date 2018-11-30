@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -79,7 +80,7 @@ public class FileChooser extends JFrame implements ActionListener {
 			words = read.handWriting(file.getAbsolutePath());
 		}
 		
-		String filePath = file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf("."))+".txt";
+		String filePath = file.getAbsolutePath().substring(0, file.getAbsolutePath().indexOf("."))+"_"+(new Date().getTime())+".txt";
 		this.contentToTxt(filePath, words);
 		
 		JOptionPane.showMessageDialog(this, "生成文件路径："+filePath);
